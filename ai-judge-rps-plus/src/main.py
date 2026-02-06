@@ -2,7 +2,8 @@ import json
 import os
 from pathlib import Path
 import random
-import google.generativeai as genai
+from google import genai
+
 
 
 def load_system_prompt():
@@ -58,10 +59,11 @@ Remember to output VALID JSON with the structure defined in your instructions.
     if client is None:
         judge_decision = mock_judge_response(system_prompt, game_context)
     else:
-        # Call Gemini API
-        model = client.get_model("models/gemini-1.5-flash")
-        response = model.generate_content(
-            [system_prompt, user_message]
+        # Call Gemini API using the client
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=user_message,
+            system_instruction=system_prompt
         )
         
         # Parse the response
@@ -257,8 +259,9 @@ def main():
     if mock_mode:
         client = None
     else:
-        genai.configure(api_key=api_key)
-        client = genai.Client()
+        # Initialize Gemini client with API key
+        client = genai.Client(api_key=api_key)
+
     
     # Load system prompt
     system_prompt = load_system_prompt()
@@ -338,6 +341,7 @@ def main():
 
             # Reset game state to start another 3-round match
             game_state = initialize_game()
+          
 
 if __name__ == "__main__":
     main()

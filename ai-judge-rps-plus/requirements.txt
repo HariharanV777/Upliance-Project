@@ -1,8 +1,3 @@
 google-generativeai>=0.3.0
-gemini api key
-Python: >= 3.8 
-Package dependency: google-generativeai>=0.3.0 
-Standard libs: json, os, pathlib, random (bundled with Python)
-Network: Internet required to call Gemini API (optional if using mock)
-Env vars: GEMINI_API_KEY (set to use real Gemini) or MOCK_GEMINI=1 (use mock judge)
-Entry script: src/main.py
+python-dotenv>=1.0.0
+gemini api key shoul be set in environment variable GEMINI_API_KEY(works with mock model without api key)
