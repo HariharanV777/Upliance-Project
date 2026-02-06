@@ -308,6 +308,34 @@ def main():
         # Move to next round
         game_state["round_number"] += 1
 
+        # After every 3 rounds evaluate overall winner and reset game for another match
+        if len(game_state["rounds"]) % 3 == 0:
+            last_three = game_state["rounds"][-3:]
+            user_wins = 0
+            bot_wins = 0
+            draws = 0
+            for rd in last_three:
+                rw = rd.get("game_logic", {}).get("round_winner")
+                if rw == "player2":
+                    user_wins += 1
+                elif rw == "player1":
+                    bot_wins += 1
+                else:
+                    draws += 1
 
-if __name__ == "__main__":
-    main()
+            if user_wins > bot_wins:
+                final = "User wins"
+            elif bot_wins > user_wins:
+                final = "Bot wins"
+            else:
+                final = "Draw"
+
+            print("\n" + "="*70)
+            print("FINAL RESULT FOR THE LAST 3 ROUNDS:")
+            print(f"  User wins: {user_wins}, Bot wins: {bot_wins}, Draws: {draws}")
+            print(f"\nFinal result: {final}")
+            print("="*70 + "\n")
+
+            # Reset game state to start another 3-round match
+            game_state = initialize_game()
+
