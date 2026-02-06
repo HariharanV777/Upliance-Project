@@ -1,15 +1,3 @@
-"""
-AI Judge for Rock-Paper-Scissors Plus
-
-Minimal glue code to orchestrate the game using Gemini as the judge.
-All game logic lives in the prompt (prompts/judge_prompt.txt).
-This file handles:
-1. Loading the system prompt
-2. Managing minimal state (round number, bomb usage)
-3. Interfacing with Google Gemini API
-4. Formatting output for readability
-"""
-
 import json
 import os
 from pathlib import Path
