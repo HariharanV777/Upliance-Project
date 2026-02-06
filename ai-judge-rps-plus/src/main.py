@@ -59,25 +59,26 @@ Remember to output VALID JSON with the structure defined in your instructions.
     if client is None:
         judge_decision = mock_judge_response(system_prompt, game_context)
     else:
-        # Call Gemini API using the client
-        response = client.models.generate_content(
-            model="gemini-1.5-flash",
-            contents=user_message,
-            system_instruction=system_prompt
-        )
-        
-        # Parse the response
-        response_text = response.text.strip()
-        
-        # Extract JSON from response (handle markdown code blocks if present)
-        if response_text.startswith("```json"):
-            response_text = response_text[7:]
-        if response_text.startswith("```"):
-            response_text = response_text[3:]
-        if response_text.endswith("```"):
-            response_text = response_text[:-3]
-        
-        judge_decision = json.loads(response_text.strip())
+        # Call Gemini API using the client (updated pattern)
+        try:
+            response = client.generate_text(
+                model="gemini-1.5",
+                prompt=system_prompt + "\n" + user_message
+            )
+            response_text = response.text
+        except Exception as e:
+            print("Gemini API failed, using mock mode:", e)
+            judge_decision = mock_judge_response(system_prompt, game_context)
+        else:
+            # Extract JSON from response (handle markdown code blocks if present)
+            if response_text.startswith("```json"):
+                response_text = response_text[7:]
+            if response_text.startswith("```"):
+                response_text = response_text[3:]
+            if response_text.endswith("```"):
+                response_text = response_text[:-3]
+
+            judge_decision = json.loads(response_text.strip())
     
     # Update game state based on judge's decision
     if judge_decision["final_result"]["move_accepted"]:
@@ -249,7 +250,7 @@ def main():
     """Main game loop."""
     
     # Initialize Gemini API (or fall back to MOCK mode for local testing)
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = "AIzaSyBsw0xocQJt55aupu-cn9W5Wi7V0BqIMZo"#paste your API key here for testing, or set GEMINI_API_KEY env variable
     mock_mode = os.getenv("MOCK_GEMINI", "0") == "1"
 
     if not api_key and not mock_mode:
