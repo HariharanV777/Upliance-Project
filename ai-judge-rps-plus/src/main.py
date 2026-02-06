@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import random
 import google.generativeai as genai
 
 
@@ -287,9 +288,10 @@ def main():
             print("Please provide a move.")
             continue
         
-        # For demo purposes, AI plays rock every time (can be randomized)
+       
         # The judge will evaluate both moves
-        ai_move = "rock"
+        ai_move =random.choice(["rock","paper","scissors","bomb"])
+
         
         # Play the round
         judge_decision = play_round(
