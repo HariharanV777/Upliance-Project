@@ -165,6 +165,8 @@ This ensures the prompt is the single source of truth.
    ```bash
    export GEMINI_API_KEY=your_api_key_here
    ```
+   OR
+   directly paste a temporary key in line 253 for easier testing
    (On Windows: `set GEMINI_API_KEY=your_api_key_here`)
 
 ### Play a Game
