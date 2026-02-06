@@ -339,3 +339,6 @@ def main():
             # Reset game state to start another 3-round match
             game_state = initialize_game()
 
+if __name__ == "__main__":
+    main()
+
