@@ -250,7 +250,7 @@ def main():
     """Main game loop."""
     
     # Initialize Gemini API (or fall back to MOCK mode for local testing)
-    api_key = "AIzaSyBsw0xocQJt55aupu-cn9W5Wi7V0BqIMZo"#Paste your API key here for testing(CURRENTLY USING FREE TIER KEY)
+    api_key = "PASTE_YOUR_GEMINI_API_KEY_HERE"  # Replace with your actual API key or set via environment variable
     mock_mode = os.getenv("MOCK_GEMINI", "0") == "1"
 
     if not api_key and not mock_mode:
